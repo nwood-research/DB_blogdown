@@ -1,0 +1,272 @@
+---
+title: "Northwood Research and Innovation"
+author: "Andrea Mayo"
+date: '2022-08-17'
+output:
+  html_document:
+    theme: readable
+    highlight: tango
+  flexdashboard::flex_dashboard:
+    storyboard: true
+  
+---
+<br> 
+
+## This is a summary of past and current projects happening at Northwood, take a look around! {.tabset}
+
+### Current and Past Project Status 
+
+```{r setup, include=FALSE}
+
+library (echarts4r)
+library(dplyr)
+library(tidyr)
+library(knitr)
+library (shiny)
+library (reactable)
+library (rmdformats)
+library (jpeg)
+library (png)
+library (flexdashboard)
+knitr::opts_chunk$set(echo = TRUE)
+
+Month<- read.csv('C:/Users/andrea.mayo/Documents/Research and Innovation/R Project Platform/Research Webpage//Draft Data.csv')
+
+DB <- read.csv ('C:/Users/andrea.mayo/Documents/Research and Innovation/R Project Platform/Research Webpage//Projectbyschool.csv')
+
+DB$Year <- as.factor (DB$Year)
+
+M <- 
+  Month %>% 
+  drop_na (May.22)
+
+M <-
+  M %>% 
+  rename (Status = X) 
+
+MTH <- 
+  M %>% 
+  rename (May = May.22, 
+          June = Jun.22, 
+          July = Jul.22, 
+          August = Aug.22) 
+  
+MTH <- 
+  MTH %>% 
+  select (Status, May, June, July, August)
+
+
+
+Year <- c ("15/16", "16/17", "17/18", "18/19", "19/20","20/21", "21/22")
+Total <- c (8, 11, 6, 6, 6, 10, 15)
+LTC <- c (3, 6, 5, 4, 2, 8, 11)
+Com <- c (3, 3, 1, 1, 3, 2, 3)
+Corp <- c (2, 2, 0, 1, 1, 0, 1)
+
+Year <- data.frame(Year, Total, LTC, Com, Corp) 
+View (Year)
+
+Year_long <- gather (Year, "LTC":"Corp", key = "Population", value = "Active")
+
+```
+
+<br> 
+
+Here we will see what the month to month changes are in Active, New, and Finished projects.
+
+<br>
+```{r, echo=FALSE}
+
+
+reactable (MTH)
+```
+
+<br> 
+
+All these active projects can be categorized into projects withing our Long-term Care Facilities, our Community-based Older Adults, and within the Corporation itself. This graph demonstrates which group projects fall into by year. 
+
+<br> 
+
+```{r, echo = FALSE}
+reactable (Year_long, 
+           columns = list (
+             Total = colDef(align = "center"), 
+             Population = colDef (align = "center"), 
+             Active = colDef(align = "center")
+           ), 
+           highlight = TRUE, 
+           searchable = TRUE
+           )
+
+```
+
+<br>
+
+```{r, echo=FALSE, fig.align='center'}
+
+View (Year)
+
+Figure <- 
+  Year %>%  
+  e_charts (x = Year) %>% 
+  e_line (serie = Total) %>% 
+  e_area (LTC) %>% 
+  e_area (Corp) %>% 
+  e_area (Com) %>% 
+  e_axis_labels (x = "Year", 
+                 y = "Active Projects") %>% 
+  e_title ("Active Projects by Year & Population") %>% 
+  e_theme ("infographic") %>% 
+  e_legend (right = 0) %>% 
+  e_tooltip (
+    trigger = "axis", 
+    backgroundColor = "rgba(255, 255, 255, 1)") 
+
+Figure
+```
+
+```{r, echo=FALSE, fig.align='center'}
+Figure2 <- 
+  DB %>% 
+  group_by(Uni) %>% 
+  e_chart (x = Year, stack = "grp") %>% 
+  e_bar (N) %>% 
+  e_legend (type = ("scroll"), 
+            left = 0, 
+            bottom = 0) %>% 
+  e_theme ("infographic") %>% 
+  e_tooltip (
+    trigger = "axis", 
+    backgroundColor = "rgba(255, 255, 255, 1)")  %>% 
+  e_title(
+    text = "Research Projects by Year and Institution"
+  ) %>% 
+  e_y_axis(
+    splitArea = list(show = FALSE),
+    splitLine = list(show = FALSE)
+  )
+  
+Figure2
+```
+  
+
+This document was last updated on `r Sys.Date ()`
+```{r Publish Work}
+```
+
+### Published Work 
+#### Experiences of residents in long-term-care homes with socially assistive technologies and the effectiveness of these technologies: a mixed methods systematic review protocol
+#### M.Macdonald et al. (2022)
+[Click here to see article](https://journals.lww.com/jbisrir/Citation/9000/Experiences_of_residents_in_long_term_care_homes.99766.aspx)
+<br> 
+
+**Objective:** 
+The objective of this review is to explore the experiences of residents in long-term-care homes using socially assistive technologies and the effectiveness of these technologies in relation to depression, loneliness, and social interaction.
+
+**Introduction:** 
+Research related to the experiences of residents in long-term-care homes with socially assistive technologies, and their effectiveness, is limited. This population of older adults is projected to steeply increase in the future, as will the need for services, such as long-term care. Older adults (≥65) in long-term care are at increased risk of depression, loneliness, and social isolation. Therefore, there is a need to explore the experiences of long-term-care residents in the use of socially assistive technologies and to determine the effectiveness of these technologies in relation to depression, loneliness, and social interaction.
+
+**Inclusion criteria:** 
+This review will include studies about the experiences of older adults in long-term care using socially assistive technologies, and the effectiveness of these technologies. Older adults are defined as people 65 years of age and above. We will consider human-to-human socially assistive technologies, such as computers, smart phones, tablets, and associated applications. We will review quantitative, qualitative, and mixed methods studies from the inception of databases to present.
+
+**Methods:** 
+A JBI mixed methods convergent segregated approach will be used. Select databases and gray literature will be searched for published and unpublished studies. Titles, abstracts, and full texts of included studies will be screened by at least two reviewers, and undergo quality appraisal, data extraction, and synthesis of quantitative and qualitative data followed by integration of the two types of evidence.
+ 
+<br>
+
+<br> 
+
+#### Goals of Care Conversations in Long-Term Care during the First Wave of COVID-19 Pandemic
+#### Mallery et al. (2022)
+[Click here to see artricle](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8950529/)
+<br> 
+
+Goals of care discussions typically focus on decision maker preference and underemphasize prognosis and outcomes related to frailty, resulting in poorly informed decisions. Our objective was to determine whether navigated care planning with nursing home residents or their decision makers changed care plans during the first wave of the COVID-19 pandemic. The MED-LTC virtual consultation service, led by internal medicine specialists, conducted care planning conversations that balanced information-giving/physician guidance with resident autonomy. Consultation included (1) the assessment of co-morbidities, frailty, health trajectory, and capacity; (2) in-depth discussion with decision makers about health status and expected outcomes; and (3) co-development of a care plan. Non-parametric tests and logistic regression determined the significance and factors associated with a change in care plan. Sixty-three residents received virtual consultations to review care goals. Consultation resulted in less aggressive care decisions for 52 residents (83%), while 10 (16%) remained the same. One resident escalated their care plan after a mistaken diagnosis of dementia was corrected. Pre-consultation, 50 residents would have accepted intubation compared to 9 post-consultation. The de-escalation of care plans was associated with dementia, COVID-19 positive status, and advanced frailty. We conclude that during the COVID-19 pandemic, a specialist-led consultation service for frail nursing home residents significantly influenced decisions towards less aggressive care.
+
+#### LGBT Housing Matters: Results of the Canadian LGBT older adults and housing project.
+#### Gahagan et al. (2020)
+[Click here to see artricle](https://bccrns.ca/wp-content/uploads/2020/07/LGBT-Housing-Matters-2020.pdf)
+
+As Canada’s population ages, a key health equity concern is developing housing models and policies to meet the needs of diverse and marginalized older adults (55+). Older lesbian, gay, bisexual, and transgender (LGBT) adults are an overlooked and disadvantaged segment of the aging population. Many older LGBT adults are single, live alone, may be socially isolated, live in poverty and experience systemic discrimination and harassment across the life course. There is a dearth of data about the specific housing needs of these populations and as such there is an urgent need to address knowledge gaps about intersecting concerns related to aging, housing, and LGBT Canadians. With funding support from the Social Sciences and Humanities Research Council (SSHRC), we undertook a 1-year Partnership Development grant with our national research team. This study consisted of three parts: (a) a scoping review of existing international housing policies, programs and interventions aimed at LGBT populations (results forthcoming), (b) a national online housing survey, and (c) focus group discussions to identify the housing needs of older LGBT Canadians and potential solutions to address issues identified. This report provides an overview of the key findings from our national online survey and focus group discussions. A total of 970 participants responded to the online survey, including housing service providers and LGBT-identifying individuals. In addition, focus group discussions were held in five Canadian cities (Nanaimo, Calgary, Winnipeg, Ottawa, and Halifax) with a total of 52 participants.
+**Survey findings:** A number of key policy and program issues emerged from the survey data including: 1) issues of training for housing providers and landlords on the housing needs and rights of LGBT tenants and residents, 2) the need to collect better data from tenants and residents, 3) the need to address gaps in housing policies, procedures, laws and regulations as they relate to LGBT tenants and residents, and 4) the need to explore intergenerational housing approaches such as home
+sharing and cooperatives for LGBT Canadians, among others.
+**Focus group findings:** Fifty-two focus group participants across five cities raised a variety of housing-related concerns and discussed potential interventions to address these for older LGBT populations. Specifically, participants expressed fear of discrimination in housing as well as the intersecting barriers to safe and affordable housing. Participants envisioned housing that would address social isolation and exclusion through community-building and intergenerational housing models, programs and policies. In addition, participants reported the need for government and housing providers to ensure policies and practices are making housing more affordable, accessible, safe, and affirming for all LGBT people in keeping with the National Housing Strategy and current human rights protections. 
+
+#### Experiences of health and aging for younger adults in long-term care: a social-ecological multi-method approach
+#### Barber et al. (2020)
+[Click here to see artricle](https://www.tandfonline.com/doi/abs/10.1080/09687599.2020.1751074?journalCode=cdso20)
+<br> 
+There is an increasing number of younger adults with disabilities becoming residents of long-term care (LTC) homes across Atlantic Canada. Moving younger adults into LTC is less-than-ideal and presents an immediate challenge for LTC homes to meet the unique health-related needs of younger residents. This study explored the lived experiences of younger residents in a Nova Scotian LTC setting in terms of their long-term health and aging-in-place needs. Guided by the social-ecological model, this study gathered first-person experiences through photovoice and interview methods. Eleven residents, aged 36 to 60 years, illustrated how their health and aging processes were affected by multiple interacting individual, interpersonal, and environmental factors. Participants identified how they wished to be supported within LTC to improve comprehensive health services. This study demonstrates that younger LTC residents can, and should, be part of the planning for their own specialized healthcare and housing to support positive health and aging.
+
+#### The LEAD program and the effect of leadership on employee well-being
+#### Hartling et al. (2019)
+[Click here to see artricle](https://library2.smu.ca/handle/01/29134)
+<br> 
+
+Although transformational leadership has consistently been shown to have a positive effect on direct reports’ well-being, a focus on leaders' own well-being is lacking. Moreover, leadership interventions have been proposed as a vehicle for occupational health interventions, but there has been limited research that directly evaluates this premise. Therefore, there were three goals for this dissertation: (1) to develop a transformational leadership intervention that targets leader and direct report well-being through leadership behaviour change; (2) to evaluate the efficacy of the program in increasing transformational leadership behaviours; (3) and to determine whether and how leader and direct report well-being can be positively influenced through leadership development. The program of research consisted of two studies: Study 1 involved the development of the LEAD program anchored by SME interviews as part of a four-step content development process, and Study 2 involved evaluating the efficacy of the LEAD program. In Study 1, I identified ten themes critical to leadership program design, which became the foundation for the LEAD program. LEAD was designed as a 10-week program focusing on transformational leadership development through individualized phone-based coaching. In Study 2, I recruited 72 leaders who were assigned to either the first intervention or wait-list control group. The efficacy of the program was evaluated through Kirkpatrick's model of training evaluation criteria, using both leader self-report and direct report data. Study 2 yielded mixed results. Leaders' reactions to the LEAD program were highly positive, and there were significant overall and weekly increases in transformational leadership and efficacy (leadership and professional). However, LEAD negatively affected leader, but not direct report, well-being. Together these studies failed to convincingly demonstrate the efficacy of the program. However, the studies do contribute to the theoretical understanding of leadership, employee well-being, and the potential for leadership development as an occupational health intervention.
+
+#### Healthcare workers ‘on the move’: making visible the employment-related geographic mobility of healthcare workers
+#### Jackson et al. (2019)
+[Click here to see artricle](https://www.tandfonline.com/doi/full/10.1080/14461242.2019.1659154)
+
+Many healthcare workers are ‘on the move’ as part of their employment, travelling often great distances to such places as patients’/clients’ homes and community clinics. Healthcare workers’ experiences of this employment-related geographic mobility have been relatively invisible even though mobility is necessary for home and community care. Interviews with professional (e.g. nurses) and paraprofessional (e.g. personal care assistants) healthcare workers in Nova Scotia (Canada) found that mobility includes safety risks, and health and economic costs, although a few professionals had employment contracts that helped to protect them against such risks and costs. Paraprofessionals appear to be most impacted by the economic costs given their lower incomes. Many healthcare workers also experienced travel positively, as time away from fixed sites, and associated this time with freedom. The risks of mobility were understood by some workers as part of a duty to care, but a few suggested that the health and economic costs are an undue burden, pointing to an opening for challenging these conditions. There is a need for regulations to ensure all healthcare workers are safe as they are mobile to and from fixed sites, and do not have to shoulder the health or economic costs of mobility.
+
+
+#### Let them hear our voices, singing in harmony: A qualitative case study on a workplace choir
+#### Couture et al. (2018)
+[Click here to see artricle](https://harvest.usask.ca/handle/10388/10960)
+
+The present study was undertaken to investigate a novel example of music in a workplace setting, employees singing together. Music listening at work and music making in a choral context are typically separate areas of study in the current research literature. Music listening at work is associated with various positive emotional, psychological, and physical outcomes (Haake, 2011; Korzcynski, 2003; Lesiuk, 2005; Stachyra, 2015), as is active choral music participation and creation (Bailey & Davidson, 2005; Brisola & Cury, 2015; Clift, Nicol, Raisbreck, Whitmore, & Morrison, 2010; Merkt, 2012; Silber, 2005; Stewart & Lonsdale, 2016). In order to provide a foundational understanding of active music participation in a work context, a qualitative case study was used to explore a unique workplace choir that is maintained and managed by employees in a care home in Atlantic Canada. The motivations for implementing and maintaining such an ensemble were examined, as well as the perceived benefits of choir membership. Findings suggested that the implementation of this particular workplace choir was influenced by a rich musical culture in the province as well as strong organizational acceptance and support. Choir members reported numerous benefits encapsulated within the themes of Personal Wellbeing, Personal Growth, Purposeful Work, and Serving Others. The document concludes with implications for practice as well as future research.
+
+
+#### BRINGING SEXY BACK: EXPLORING INTIMACY AND SEXUALITY AMONG OLDER RESIDENTS IN LONG-TERM CARE
+#### Meisner & Malone (2017)
+[Click here to see artricle](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6183096/)
+<br>
+Continued intimate and/or sexual expression in later life improves health and well-being. However, older adults may not experience the many health-promoting and disease-preventing benefits of intimacy/sexuality as a result of a complex series of biopsychosocial and behavioural factors. Further, older adults who live in long-term care (LTC) settings often have additional barriers related to intimacy/sexuality, but relatively little is known on this topic. This study explored first-hand perspectives of 10 older residents of a LTC facility in Nova Scotia, Canada on how intimacy and sexuality are defined, perceived, and experienced in their present living environment. Data collection consisted of a two-phase qualitative interview process. First, a life review approach was used to establish rapport with each resident and to situate their perspectives on intimacy/sexuality in the context of their life histories. Second, semi-structured interviews were conducted. Thematic constant comparison analysis was used to extract central themes from these data. Results demonstrated that: a) LTC residents have diverse definitions of intimacy/sexuality, and that the language choices used to discuss these terms are significant; b) while age may be perceived as a factor for continued intimate/sexual expression, it is not the determining factor; c) LTC residents experience and engage in intimacy/sexuality through many forms, and these experiences vary across individuals and over time. Ultimately, findings emphasize the importance of giving voice to older residents’ perspectives of intimacy/sexuality, and the value of using these voices to inform future relevant aging-related research, policies, and practices in LTC settings.
+
+
+#### Accentuate the positive : organizational and personal consequences of positive leadership
+#### Weigand (2017)
+[Click here to see artricle](https://library2.smu.ca/handle/01/27010)
+
+For this thesis, I examined the relationship between positive leadership and follower work behaviours through two studies. In the first, 313 employees participated in a study to examine how leaders’ positivity and positive leadership affect that of their followers. The purpose of the study was to explore if leaders’ positivity and enactment of positive leadership predicted follower positivity, which then predicted follower innovation, and burnout. Study Two built on the established positive leadership behaviour constructs by assessing an intervention aimed at enhancing positive leadership behaviours. The leadership intervention was assessed using a field experiment in which 80 leaders and their followers from a long-term health care organization were randomly assigned to leader positivity training, positive leadership training, a combined positivity and positive leadership training group or a control group. In this study the effects of training on followers’ perceptions of leaders’ positivity, follower positivity, burnout, and innovation were assessed. The two-study analysis supported the two positive leadership constructs and revealed that positive leadership affects follower burnout, while leader positivity affects follower positivity and innovation.
+
+```{r Who Are We?}
+
+```
+### Who Are We? 
+#### ***Research Associate ***
+
+#### Andrea manages, consults, and assits in the evaluation of research projects at Northwood. Andrea is currently working on her PhD in Health Degree at Dalhousie. Her interests include healthy aging, physical activity/exercise, and frailty management. 
+
+
+#### ***Research Advisory Counsel***
+#### The Research Advisory Counsel (RAC) is comprised of Researchers, Northwood Employees, and Northwood Clients. Once a month the team meets to discuss new and on-going research. 
+
+#### RAC Co-chairs: 
+* Andrea Mayo 
+* Pamela Fancy 
+
+#### The RAC memebers include: 
+* Dr. Ardra Cole 
+* Dr. Arla Day  
+* Dr. Tanya Packer 
+* Brandon Meisner 
+* John O'Keefe
+* Janet Simm 
+* Jennifer Tucker 
+* Carolyn Van Gurp 
+* Dr. Lori Weeks 
+* Dr. Shelley Weir
+
+
+
+
+
+
+
+
+
+
+
